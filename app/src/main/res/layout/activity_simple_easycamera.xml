@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".ui.SimpleEasyCameraActivity">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <camerademo.earll.com.camerademo.module.camera.view.CameraSurfaceView
+                android:id="@+id/camera_surfaceview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <SeekBar
+
+            android:id="@+id/sb_zoombar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/btn_shoot"
+            style="@style/style_common_wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@android:drawable/ic_menu_camera"
+            android:text="照相" />
+
+        <Button
+            android:id="@+id/btn_whitebalance"
+            style="@style/style_common_wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@android:drawable/ic_menu_camera"
+            android:text="白平衡" />
+
+        <Button
+            android:id="@+id/btn_whitebalanceauto"
+            style="@style/style_common_wrap_content"
+            android:layout_above="@id/btn_whitebalance"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dip"
+            android:text="自动白平衡(开)" />
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

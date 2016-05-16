@@ -2,78 +2,73 @@ package camerademo.earll.com.camerademo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Environment;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
-
+import com.yalantis.cameramodule.activity.CameraActivity;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
+import camerademo.earll.com.camerademo.ui.SimpleEasyCameraActivity;
+import camerademo.earll.com.camerademo.ui.SimpleCameraActivity;
+import camerademo.earll.com.camerademo.ui.base.BaseActivity;
 
-import camerademo.earll.com.camerademo.ui.SimpleCamera;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    @ViewInject(R.id.btn_gocamera)
-    Button btn_gocamera;
-    @Event(value = R.id.btn_gocamera, type = View.OnClickListener.class)
+    @ViewInject(R.id.toolbar)
+    Toolbar toolbar;
+
+    @ViewInject(R.id.btn_gosimple1)
+    Button btn_gosimple1;
+    @Event(value = R.id.btn_gosimple1, type = View.OnClickListener.class)
     private void clickBtn1(View view) {
-        Intent intent = new Intent(this, SimpleCamera.class);
-        startActivity(intent);
+        goActivity(SimpleCameraActivity.class,null);
     }
-    @ViewInject(R.id.fab_shoot)
-    FloatingActionButton fab_shoot;
-    @Event(value = R.id.fab_shoot, type = View.OnClickListener.class)
-    private void clickBtnShoot(View view) {
-        Intent intent = new Intent(this, SimpleCamera.class);
-        startActivity(intent);
-        //弹出显示文本
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
+
+    @ViewInject(R.id.btn_gosimple2)
+    Button btn_gosimple2;
+    @Event(value = R.id.btn_gosimple2, type = View.OnClickListener.class)
+    private void clickBtn2(View view) {
+        goActivity(SimpleEasyCameraActivity.class,null);
+    }
+
+    @ViewInject(R.id.btn_gosimple3)
+    Button btn_gosimple3;
+    @Event(value = R.id.btn_gosimple3, type = View.OnClickListener.class)
+    private void clickBtn3(View view) {
+        openCamera();
+    }
+
+
+    @Override
+    protected int getMainResourceId() {
+        return R.layout.activity_main;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        x.view().inject(this);//view绑定
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    protected void initUI(){
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_shoot);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void initData(Bundle savedInstanceState) {
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public void goActivity(Class<?> cls,Bundle extras){
+        Intent intent = new Intent(this,cls);
+        if(extras!=null&&extras.size()>0){
+            intent.putExtras(extras);
         }
+        startActivity(intent);
+    }
 
-        return super.onOptionsItemSelected(item);
+    public void openCamera() {
+        Intent intent = new Intent(this, CameraActivity.class);
+        intent.putExtra(CameraActivity.PATH, Environment.getExternalStorageDirectory().getPath());
+        intent.putExtra(CameraActivity.OPEN_PHOTO_PREVIEW, true);
+        intent.putExtra(CameraActivity.USE_FRONT_CAMERA, false);
+        startActivity(intent);
     }
 }

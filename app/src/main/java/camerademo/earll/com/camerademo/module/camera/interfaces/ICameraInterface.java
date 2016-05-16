@@ -7,36 +7,39 @@ import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.hardware.Camera.Size;
+import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
+
 import java.io.IOException;
 import java.util.List;
-import camerademo.earll.com.camerademo.module.camera.utils.CameraUtil;
+
 import camerademo.earll.com.camerademo.module.camera.utils.CameraFileUtil;
 import camerademo.earll.com.camerademo.module.camera.utils.CameraImageUtil;
+import camerademo.earll.com.camerademo.module.camera.utils.CameraUtil;
 
 
 /**
  * Created by ZhangYuanBo on 2016/5/12.
  */
-public class CameraInterface {
+public class ICameraInterface {
     private static final String TAG = "yanzi";
     private Camera mCamera;
     private Camera.Parameters mParams;
     private boolean isPreviewing = false;
     private float mPreviwRate = -1f;
-    private static CameraInterface mCameraInterface;
+    private static ICameraInterface mCameraInterface;
 
     public interface CamOpenOverCallback{
         public void cameraHasOpened();
     }
 
-    private CameraInterface(){
+    private ICameraInterface(){
 
     }
-    public static synchronized CameraInterface getInstance(){
+    public static synchronized ICameraInterface getInstance(){
         if(mCameraInterface == null){
-            mCameraInterface = new CameraInterface();
+            mCameraInterface = new ICameraInterface();
         }
         return mCameraInterface;
     }
@@ -67,11 +70,9 @@ public class CameraInterface {
             CameraUtil.getInstance().printSupportPictureSize(mParams);
             CameraUtil.getInstance().printSupportPreviewSize(mParams);
             //设置PreviewSize和PictureSize
-            Size pictureSize = CameraUtil.getInstance().getPropPictureSize(
-                    mParams.getSupportedPictureSizes(),previewRate, 800);
+            Size pictureSize = CameraUtil.getInstance().getPropPictureSize(mParams.getSupportedPictureSizes(),previewRate, 800);
             mParams.setPictureSize(pictureSize.width, pictureSize.height);
-            Size previewSize = CameraUtil.getInstance().getPropPreviewSize(
-                    mParams.getSupportedPreviewSizes(), previewRate, 800);
+            Size previewSize = CameraUtil.getInstance().getPropPreviewSize(mParams.getSupportedPreviewSizes(), previewRate, 800);
             mParams.setPreviewSize(previewSize.width, previewSize.height);
 
             mCamera.setDisplayOrientation(90);
@@ -80,6 +81,11 @@ public class CameraInterface {
             List<String> focusModes = mParams.getSupportedFocusModes();
             if(focusModes.contains("continuous-video")){
                 mParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                mParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);//1连续对焦
+            } else {
+                mParams.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
             }
             mCamera.setParameters(mParams);
 
@@ -95,10 +101,8 @@ public class CameraInterface {
             mPreviwRate = previewRate;
 
             mParams = mCamera.getParameters(); //重新get一次
-            Log.i(TAG, "最终设置:PreviewSize--With = " + mParams.getPreviewSize().width
-                    + "Height = " + mParams.getPreviewSize().height);
-            Log.i(TAG, "最终设置:PictureSize--With = " + mParams.getPictureSize().width
-                    + "Height = " + mParams.getPictureSize().height);
+            Log.i(TAG, "最终设置:PreviewSize--With = " + mParams.getPreviewSize().width+ "Height = " + mParams.getPreviewSize().height);
+            Log.i(TAG, "最终设置:PictureSize--With = " + mParams.getPictureSize().width+ "Height = " + mParams.getPictureSize().height);
         }
     }
     /**
@@ -168,6 +172,30 @@ public class CameraInterface {
             isPreviewing = true;
         }
     };
+
+
+///////////////////////新增方法////////////////////
+    public boolean isSupportZoom(){
+        boolean isSuppport = false;
+        if (mCamera.getParameters().isSmoothZoomSupported()){
+            isSuppport = true;
+        }
+        return isSuppport;
+    }
+
+    public void autoFocus(){
+        if (mCamera != null) {
+            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(boolean success, Camera camera) {
+                    if (success) {
+                        //doStartPreview();//实现相机的参数初始化
+                    }
+                }
+            });
+        }
+    }
+
 
 
 }
