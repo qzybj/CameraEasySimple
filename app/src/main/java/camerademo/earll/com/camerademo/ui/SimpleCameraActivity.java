@@ -33,11 +33,12 @@ public class SimpleCameraActivity extends BaseActivity implements CameraInterfac
     @ViewInject(R.id.sb_zoombar)
     SeekBar sb_zoombar;
 
+
     @ViewInject(R.id.fab_shoot)
     FloatingActionButton fab_shoot;
     @Event(value = R.id.fab_shoot, type = View.OnClickListener.class)
     private void clickBtnShoot(View view) {
-        CameraInterfaceIMPL.getInstance().doTakePicture();
+        CameraInterfaceIMPL.getInstance().doTakePicture();//拍照
         //弹出显示文本
 //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
@@ -46,7 +47,7 @@ public class SimpleCameraActivity extends BaseActivity implements CameraInterfac
     Button btn_autofocus;
     @Event(value = R.id.btn_autofocus, type = View.OnClickListener.class)
     private void clickBtnAutoFocus(View view) {
-        CameraInterfaceIMPL.getInstance().autoFocus();
+        CameraInterfaceIMPL.getInstance().setAutoFocus();
     }
 
     @ViewInject(R.id.btn_whitebalance)
@@ -68,7 +69,6 @@ public class SimpleCameraActivity extends BaseActivity implements CameraInterfac
         if(mCamera!=null){
             Camera.Parameters parameters = mCamera.getParameters();
             boolean autoWhiteBalanceLock = parameters.getAutoWhiteBalanceLock();
-
             if(autoWhiteBalanceLock){
                 btn_whitebalanceauto.setText("自动白平衡(关)");
             }else{

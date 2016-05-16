@@ -89,7 +89,7 @@ public interface EasyCamera { // TODO implements AutoCloseable {
     void addCallbackBuffer(byte[] callbackBuffer);
 
 	/**
-	 * See <a href="http://developer.android.com/reference/android/hardware/Camera.html#autoFocus%28android.hardware.Camera.AutoFocusCallback%29">Camera.autoFocus(..)</a>
+	 * See <a href="http://developer.android.com/reference/android/hardware/Camera.html#autoFocus%28android.hardware.Camera.AutoFocusCallback%29">Camera.setAutoFocus(..)</a>
 	 */
     void autoFocus(Camera.AutoFocusCallback cb);
 
