@@ -8,25 +8,23 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="camerademo.earll.com.camerademo.MainActivity"
     tools:showIn="@layout/activity_main">
+
     <Button
         android:id="@+id/btn_gosimple1"
         style="@style/style_common_wrap_content"
-        android:text="gosimple1"
         android:layout_margin="15dip"
-        />
+        android:text="gosimple1" />
+
     <Button
         android:id="@+id/btn_gosimple2"
         style="@style/style_common_wrap_content"
-        android:text="gosimple1"
         android:layout_margin="15dip"
-        />
+        android:text="gosimple2" />
+
     <Button
         android:id="@+id/btn_gosimple3"
         style="@style/style_common_wrap_content"
-        android:text="gosimple1"
         android:layout_margin="15dip"
-        />
-
-
+        android:text="gosimple3" />
 
 </LinearLayout>

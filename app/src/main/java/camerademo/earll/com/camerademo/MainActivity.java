@@ -49,6 +49,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initUI(){
         setSupportActionBar(toolbar);
+        btn_gosimple2.setVisibility(View.GONE);
     }
 
     @Override
