@@ -28,4 +28,19 @@
     <dimen name="medium_margin">20dp</dimen>
     <dimen name="camera_screen_dialog_spinner_width">100dp</dimen>
     <dimen name="settings_item_padding">5dp</dimen>
+
+    <!-- 字体大小按1.8换算 -->
+    <dimen name="text_size_48">26.6sp</dimen>
+    <dimen name="text_size_40">22.2sp</dimen>
+    <dimen name="text_size_38">22sp</dimen>
+    <dimen name="text_size_36">20sp</dimen>
+    <dimen name="text_size_34">18.8sp</dimen>
+    <dimen name="text_size_32">17.7sp</dimen>
+    <dimen name="text_size_30">16.6sp</dimen>
+    <dimen name="text_size_28">15.5sp</dimen>
+    <dimen name="text_size_26">14.4sp</dimen>
+    <dimen name="text_size_24">13.3sp</dimen>
+    <dimen name="text_size_22">12.2sp</dimen>
+    <dimen name="text_size_20">11.1sp</dimen>
+    <dimen name="text_size_18">10.0sp</dimen>
 </resources>

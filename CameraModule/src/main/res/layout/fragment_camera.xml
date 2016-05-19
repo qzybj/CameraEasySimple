@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ The MIT License (MIT)
   ~
   ~ Copyright (c) 2014 Zillow
@@ -23,78 +22,70 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/camera_background">
+    style="@style/style_common_matchparent"
+    android:background="@color/camera_background">
 
     <FrameLayout
-         android:id="@+id/camera_preview"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"/>
+        android:id="@+id/camera_preview"
+        style="@style/style_common_matchparent" />
 
     <FrameLayout
-         android:layout_below="@id/camera_preview"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:background="@drawable/sheet_shadow"/>
+        style="@style/style_common_matchparent"
+        android:layout_below="@id/camera_preview"
+        android:background="@drawable/sheet_shadow" />
 
     <RelativeLayout
-         android:id="@+id/controls_layout"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true">
+        android:id="@+id/controls_layout"
+        style="@style/style_common_matchparent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
         <TextView
-             android:id="@+id/zoom_ratio"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:textColor="@android:color/white"
-             android:layout_margin="@dimen/small_margin"
-             android:text="@string/lbl_zoom_ratio_value"/>
+            android:id="@+id/zoom_ratio"
+            style="@style/style_common"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/small_margin"
+            android:text="@string/lbl_zoom_ratio_value"
+            android:textColor="@android:color/white" />
 
         <ImageButton
-             android:id="@+id/flash_mode"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentBottom="true"
-             android:layout_alignParentLeft="true"
-             android:src="@drawable/cam_flash_auto_icn"
-             android:background="@null"
-             android:layout_margin="@dimen/small_margin"/>
+            android:id="@+id/flash_mode"
+            style="@style/style_common"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="@dimen/small_margin"
+            android:background="@null"
+            android:src="@drawable/cam_flash_auto_icn" />
 
         <ImageButton
-             android:id="@+id/capture"
-             android:src="@drawable/camera_capture"
-             android:background="@null"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentBottom="true"
-             android:layout_centerHorizontal="true"
-             android:layout_margin="@dimen/small_margin"/>
+            android:id="@+id/capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/small_margin"
+            android:background="@null"
+            android:src="@drawable/camera_capture" />
 
         <ProgressBar
-             android:id="@+id/progress"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignStart="@id/capture"
-             android:layout_alignTop="@id/capture"
-             android:layout_alignEnd="@id/capture"
-             android:layout_alignBottom="@id/capture"
-             android:visibility="gone"/>
+            android:id="@+id/progress"
+            style="@style/style_common"
+            android:layout_alignBottom="@id/capture"
+            android:layout_alignLeft="@id/capture"
+            android:layout_alignRight="@id/capture"
+            android:layout_alignTop="@id/capture"
+            android:visibility="gone" />
 
 
         <ImageButton
-             android:id="@+id/camera_settings"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:layout_alignParentBottom="true"
-             android:layout_marginBottom="@dimen/base_padding"
-             android:layout_marginRight="@dimen/medium_margin"
-             android:src="@android:drawable/ic_menu_more"
-             android:background="@null"/>
+            android:id="@+id/camera_settings"
+            style="@style/style_common"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/base_padding"
+            android:layout_marginRight="@dimen/medium_margin"
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_more" />
 
     </RelativeLayout>
-
 </RelativeLayout>

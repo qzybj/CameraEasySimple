@@ -67,10 +67,10 @@
                 android:src="@android:drawable/ic_menu_camera"
                 android:text="对焦" />
 
-            <Button
-                android:id="@+id/btn_whitebalance"
+            <Spinner
+                android:id="@+id/spinner_whitebalance"
                 style="@style/style_common_wrap_content"
-                android:src="@android:drawable/ic_menu_camera"
+                android:layout_width="150dip"
                 android:text="白平衡" />
 
             <Button

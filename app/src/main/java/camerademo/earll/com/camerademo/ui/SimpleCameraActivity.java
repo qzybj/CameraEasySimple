@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
-
+import android.widget.Spinner;
+import com.yalantis.cameramodule.adapters.ObjectToStringAdapter;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-
+import java.util.List;
 import camerademo.earll.com.camerademo.R;
 import camerademo.earll.com.camerademo.module.camera.interfaces.impl.CameraInterfaceIMPL;
 import camerademo.earll.com.camerademo.module.camera.view.CameraSurfaceView;
@@ -28,11 +30,11 @@ public class SimpleCameraActivity extends BaseActivity implements CameraInterfac
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
     Camera mCamera;
+    List<String> mWhiteBalances;
 
     /** 焦距调节 **/
     @ViewInject(R.id.sb_zoombar)
     SeekBar sb_zoombar;
-
 
     @ViewInject(R.id.fab_shoot)
     FloatingActionButton fab_shoot;
@@ -50,18 +52,9 @@ public class SimpleCameraActivity extends BaseActivity implements CameraInterfac
         CameraInterfaceIMPL.getInstance().setAutoFocus();
     }
 
-    @ViewInject(R.id.btn_whitebalance)
-    Button btn_whitebalance;
-    @Event(value = R.id.btn_whitebalance, type = View.OnClickListener.class)
-    private void clickWhiteBalance(View view) {
-        if(mCamera!=null){
-            Camera.Parameters parameters = mCamera.getParameters();
-            String whiteBalance = parameters.getWhiteBalance();
-            parameters.setWhiteBalance(whiteBalance);
-            mCamera.setParameters(parameters);
-            btn_whitebalance.setText("白平衡("+whiteBalance+")");
-        }
-    }
+    @ViewInject(R.id.spinner_whitebalance)
+    Spinner whiteBalanceSwitcher;
+
     @ViewInject(R.id.btn_whitebalanceauto)
     Button btn_whitebalanceauto;
     @Event(value = R.id.btn_whitebalanceauto, type = View.OnClickListener.class)
@@ -124,6 +117,38 @@ public class SimpleCameraActivity extends BaseActivity implements CameraInterfac
     public void cameraHasOpened() {
         mCamera = CameraInterfaceIMPL.getInstance().getCamera();
         initCameraZoomSeejBar();
+        initSpinnerWhitebalance();
         showToast("Camera 初始化完毕 ");
+    }
+
+    private void initSpinnerWhitebalance(){
+        if(mCamera!=null){
+            Camera.Parameters parameters = mCamera.getParameters();
+            mWhiteBalances = parameters.getSupportedWhiteBalance();
+            if(mWhiteBalances!=null&&!mWhiteBalances.isEmpty()){
+                whiteBalanceSwitcher.setAdapter(new ObjectToStringAdapter<>(this, mWhiteBalances));
+                whiteBalanceSwitcher.setSelection(mWhiteBalances.indexOf(0));
+                whiteBalanceSwitcher.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        setWhiteBalance(mWhiteBalances.get(position));
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {}
+                });
+            }
+        }
+    }
+    private void setWhiteBalance(String whiteBalanceMode){
+        if(mCamera!=null){
+            Camera.Parameters parameters = mCamera.getParameters();
+            List<String> whiteBalances = parameters.getSupportedWhiteBalance();
+            if(whiteBalances!=null&&!whiteBalances.isEmpty()){
+                if(whiteBalances.contains(whiteBalanceMode)){
+                    parameters.setWhiteBalance(whiteBalanceMode);
+                    mCamera.setParameters(parameters);
+                }
+            }
+        }
     }
 }

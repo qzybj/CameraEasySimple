@@ -143,4 +143,70 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+
+    <!-- wrap_content common style -->
+    <style name="style_common">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!-- matchparent common style -->
+    <style name="style_common_matchparent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- singleline textview common style-->
+    <style name="style_text_common" parent="style_common" >
+        <item name="android:textSize">@dimen/text_size_20</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <!-- multiline textview common style-->
+    <style name="style_multiline_textview_common" parent="style_text_common">
+        <item name="android:gravity">center|left</item>
+        <item name="android:singleLine">false</item>
+    </style>
+
+    <!-- style_edittext_common-->
+    <style name="style_sigleline_edittext_common" parent="style_text_common">
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!--  line common horizontal -->
+    <style name="style_line_common">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@android:color/black</item>
+    </style>
+    <!--  line common vertical -->
+    <style name="style_line_common_vertical" parent="style_line_common">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!--  button 通用按钮样式 -->
+    <style name="common_btn_default" parent="style_common">
+        <item name="android:textSize">@dimen/text_size_26</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- listview common style -->
+    <style name="style_listview_common" parent="style_common_matchparent">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:cacheColorHint">#00000000</item>
+        <item name="android:divider">@null</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:listSelector">#00000000</item>
+        <item name="android:fastScrollEnabled">false</item>
+    </style>
+
+    <!--activity common style-->
+    <style name="style_activty_common" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+        <item name="android:configChanges">keyboard|keyboardHidden</item>
+    </style>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ The MIT License (MIT)
   ~
   ~ Copyright (c) 2014 Zillow
@@ -23,66 +22,69 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:background="@color/camera_params_background"
-              style="@style/LinearLayout.ActionsDialog">
+    style="@style/LinearLayout.ActionsDialog"
+    android:background="@color/camera_params_background">
 
-    <RelativeLayout
-         style="@style/RelativeLayout.SettingsItem">
-
+    <RelativeLayout style="@style/RelativeLayout.SettingsItem">
         <TextView
-             android:text="@string/lbl_quality"
-             style="@style/TextView.CameraSettingsItemTitle"/>
-
+            style="@style/TextView.CameraSettingsItemTitle"
+            android:text="@string/lbl_quality" />
         <Spinner
-             android:id="@+id/qualities"
-             style="@style/Spinner.CameraParamsItem"/>
-
+            android:id="@+id/qualities"
+            style="@style/Spinner.CameraParamsItem" />
     </RelativeLayout>
 
-    <RelativeLayout
-         style="@style/RelativeLayout.SettingsItem">
-
+    <RelativeLayout style="@style/RelativeLayout.SettingsItem">
         <TextView
-             android:text="@string/lbl_ratio"
-             style="@style/TextView.CameraSettingsItemTitle"/>
-
+            style="@style/TextView.CameraSettingsItemTitle"
+            android:text="@string/lbl_ratio" />
         <Spinner
-             android:id="@+id/ratios"
-             style="@style/Spinner.CameraParamsItem"/>
+            android:id="@+id/ratios"
+            style="@style/Spinner.CameraParamsItem" />
 
     </RelativeLayout>
 
     <RelativeLayout style="@style/RelativeLayout.SettingsItem">
 
         <TextView
-             android:text="@string/lbl_focus_mode"
-             style="@style/TextView.CameraSettingsItemTitle"/>
+            style="@style/TextView.CameraSettingsItemTitle"
+            android:text="@string/lbl_focus_mode" />
 
         <Spinner
-             android:id="@+id/focus_modes"
-             style="@style/Spinner.CameraParamsItem"/>
+            android:id="@+id/focus_modes"
+            style="@style/Spinner.CameraParamsItem" />
+
+    </RelativeLayout>
+    <RelativeLayout style="@style/RelativeLayout.SettingsItem">
+
+        <TextView
+            style="@style/TextView.CameraSettingsItemTitle"
+            android:text="@string/lbl_whitebalance_mode" />
+
+        <Spinner
+            android:id="@+id/lbl_whitebalance_mode"
+            style="@style/Spinner.CameraParamsItem" />
 
     </RelativeLayout>
 
     <RelativeLayout
-         android:id="@+id/relativeHdr"
-         style="@style/RelativeLayout.SettingsItem">
+        android:id="@+id/relativeHdr"
+        style="@style/RelativeLayout.SettingsItem">
 
         <TextView
-             android:text="@string/lbl_hdr"
-             style="@style/TextView.CameraSettingsItemTitle"/>
+            style="@style/TextView.CameraSettingsItemTitle"
+            android:text="@string/lbl_hdr" />
 
         <Switch
-             android:id="@+id/switchHDR"
-             style="@style/Switch.SettingsItem"/>
-
+            android:id="@+id/switchHDR"
+            style="@style/Switch.SettingsItem" />
     </RelativeLayout>
 
     <Button
-         android:id="@+id/close"
-         android:text="@string/lbl_close"
-         android:textColor="@android:color/white"
-         android:layout_marginTop="@dimen/base_padding"
-         style="@style/Button.ActionDialog"/>
+        android:id="@+id/close"
+        style="@style/Button.ActionDialog"
+        android:layout_marginTop="@dimen/base_padding"
+        android:text="@string/lbl_close"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

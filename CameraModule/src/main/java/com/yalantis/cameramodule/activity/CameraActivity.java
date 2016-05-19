@@ -106,6 +106,7 @@ public class CameraActivity extends BaseActivity implements PhotoTakenCallback, 
         bundle.putInt(CameraFragment.HDR_MODE, SharedPrefManager.i.isHDR());
         bundle.putInt(CameraFragment.QUALITY, SharedPrefManager.i.getCameraQuality());
         bundle.putInt(CameraFragment.FOCUS_MODE, SharedPrefManager.i.getCameraFocusMode());
+        bundle.putInt(CameraFragment.FOCUS_MODE, SharedPrefManager.i.getCameraFocusMode());
         bundle.putBoolean(CameraFragment.FRONT_CAMERA, SharedPrefManager.i.useFrontCamera());
 
         return bundle;
@@ -221,6 +222,8 @@ public class CameraActivity extends BaseActivity implements PhotoTakenCallback, 
     public void onFocusModeChanged(int id) {
         SharedPrefManager.i.setCameraFocusMode(id);
     }
+    @Override
+    public void onWhiteBalanceModeChanged(int id) {SharedPrefManager.i.setCameraWhiteBalanceMode(id);}
 
     @Override
     public void onBackPressed() {

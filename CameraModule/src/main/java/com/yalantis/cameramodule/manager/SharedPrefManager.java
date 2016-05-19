@@ -42,6 +42,7 @@ public enum SharedPrefManager implements Initializer {
     public static final String CAMERA_QUALITY = "camera_quality";
     public static final String CAMERA_FLASH_MODE = "camera_flash_mode";
     public static final String CAMERA_HDR_MODE = "camera_hdr_mode";
+    public static final String CAMERA_WHITEBALANCE_MODE = "camera_whitebalance_mode";
     public static final String CAMERA_FOCUS_MODE = "camera_focus_mode";
     public static final String USE_FRONT_CAMERA = "use_front_camera";
 
@@ -55,6 +56,7 @@ public enum SharedPrefManager implements Initializer {
     private CachedValue<Integer> cameraFlashMode;
     private CachedValue<Integer> isCameraHDRMode;
     private CachedValue<Integer> cameraFocusMode;
+    private CachedValue<Integer> cameraWhiteBalanceMode;
     private CachedValue<Boolean> useFrontCamera;
 
     @Override
@@ -68,6 +70,7 @@ public enum SharedPrefManager implements Initializer {
         cachedValues.add(cameraQuality = new CachedValue<>(CAMERA_QUALITY, 0, Integer.class));
         cachedValues.add(cameraFlashMode = new CachedValue<>(CAMERA_FLASH_MODE, 0, Integer.class));
         cachedValues.add(cameraFocusMode = new CachedValue<>(CAMERA_FOCUS_MODE, 0, Integer.class));
+        cachedValues.add(cameraWhiteBalanceMode = new CachedValue<>(CAMERA_WHITEBALANCE_MODE, 0, Integer.class));
         cachedValues.add(useFrontCamera = new CachedValue<>(USE_FRONT_CAMERA, false, Boolean.class));
     }
 
@@ -117,6 +120,13 @@ public enum SharedPrefManager implements Initializer {
 
     public void setCameraFocusMode(int cameraFocusMode) {
         this.cameraFocusMode.setValue(cameraFocusMode);
+    }
+    public int getCameraWhiteBalanceMode() {
+        return cameraWhiteBalanceMode.getValue();
+    }
+
+    public void setCameraWhiteBalanceMode(int cameraFocusMode) {
+        this.cameraWhiteBalanceMode.setValue(cameraFocusMode);
     }
 
     public boolean useFrontCamera() {

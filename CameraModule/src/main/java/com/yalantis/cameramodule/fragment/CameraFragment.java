@@ -63,6 +63,7 @@ public class CameraFragment extends com.yalantis.cameramodule.fragment.BaseFragm
     public static final String FOCUS_MODE = "focus_mode";
     public static final String FLASH_MODE = "flash_mode";
     public static final String HDR_MODE = "hdr_mode";
+    public static final String WHITEBALANCE_MODE = "whitebalance_mode";
     public static final String FRONT_CAMERA = "front_camera";
     private PhotoTakenCallback callback;
     private RawPhotoTakenCallback rawCallback;
@@ -484,6 +485,13 @@ public class CameraFragment extends com.yalantis.cameramodule.fragment.BaseFragm
         cameraPreview.setFocusMode(focusMode);
         if (paramsChangedListener != null) {
             paramsChangedListener.onFocusModeChanged(id);
+        }
+    }
+
+    @Override
+    public void onWhiteBalanceModeChanged(int value) {
+        if (paramsChangedListener != null) {
+            paramsChangedListener.onFocusModeChanged(value);
         }
     }
 

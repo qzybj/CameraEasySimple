@@ -75,5 +75,4 @@ public class PhotoCropActivity extends BasePhotoActivity implements PhotoCropped
             }
         });
     }
-
 }

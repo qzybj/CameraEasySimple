@@ -25,14 +25,34 @@ package com.yalantis.cameramodule.interfaces;
 
 public interface CameraParamsChangedListener {
 
-    public void onQualityChanged(int id);
+    /**
+     * 图片质量
+     */
+    void onQualityChanged(int value);
 
-    public void onRatioChanged(int id);
+    /**
+     * 图片宽高比
+     */
+    void onRatioChanged(int value);
 
-    public void onFlashModeChanged(int id);
+    /**
+     * 图片闪光模式
+     */
+    void onFlashModeChanged(int value);
 
-    public void onHDRChanged(int id);
+    /**
+     * 动态渲染
+     */
+    void onHDRChanged(int value);
 
-    public void onFocusModeChanged(int id);
+    /**
+     * 对焦模式
+     */
+    void onFocusModeChanged(int value);
+
+    /**
+     * 白平衡模式
+     */
+    void onWhiteBalanceModeChanged(int value);
 
 }

@@ -45,4 +45,6 @@
     <string name="lbl_photo_crop">Photo crop</string>
     <string name="lbl_photo_preview">lbl_photo_preview</string>
 
+    <string name="lbl_whitebalance_mode">白平衡模式</string>
+
 </resources>
