@@ -10,20 +10,21 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.ViewGroup;
 
+import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraOpenOverCallback;
 import camerademo.earll.com.camerademo.module.camera.interfaces.impl.CameraInterfaceIMPL;
 import camerademo.earll.com.camerademo.module.camera.utils.CameraDisplayUtil;
 
 /**
  * Created by ZhangYuanBo on 2016/5/12.
  */
-public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback ,CameraInterfaceIMPL.CameraOpenOverCallback {
+public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback ,ICameraOpenOverCallback {
     private static final String TAG = CameraSurfaceView.class.getSimpleName();
     Context mContext;
     SurfaceHolder mSurfaceHolder;
     float previewRate = -1f;
 
     /**对外暴露实现打开摄像头回调*/
-    CameraInterfaceIMPL.CameraOpenOverCallback mCameraOpenOverCallback;
+    ICameraOpenOverCallback mCameraOpenOverCallback;
 
     public CameraSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -63,7 +64,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        // TODO Auto-generated method stub
         Log.i(TAG, "surfaceDestroyed...");
         CameraInterfaceIMPL.getInstance().doStopCamera();
     }
@@ -74,7 +74,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void cameraHasOpened() {
-        // TODO Auto-generated method stub
 //        SurfaceHolder holder = surfaceView.getSurfaceHolder();
 //        ICameraInterface.getInstance().doStartPreview(holder, previewRate);
         if(mCameraOpenOverCallback!=null){
@@ -83,7 +82,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     /**设置对外暴露实现打开摄像头回调监听*/
-    public void setCameraHasOpenedCallBack(CameraInterfaceIMPL.CameraOpenOverCallback callBack) {
+    public void setCameraHasOpenedCallBack(ICameraOpenOverCallback callBack) {
         mCameraOpenOverCallback = callBack;
     }
 }

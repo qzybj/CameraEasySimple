@@ -10,10 +10,10 @@ import android.hardware.Camera.Size;
 import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
-
 import java.io.IOException;
 import java.util.List;
-
+import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraInterface;
+import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraOpenOverCallback;
 import camerademo.earll.com.camerademo.module.camera.utils.CameraUtil;
 import camerademo.earll.com.camerademo.module.camera.utils.CameraFileUtil;
 import camerademo.earll.com.camerademo.module.camera.utils.CameraImageUtil;
@@ -22,7 +22,7 @@ import camerademo.earll.com.camerademo.module.camera.utils.CameraImageUtil;
 /**
  * Created by ZhangYuanBo on 2016/5/12.
  */
-public class CameraInterfaceIMPL {
+public class CameraInterfaceIMPL implements ICameraInterface {
     private static final String TAG = "yanzi";
     private Camera mCamera;
     private Camera.Parameters mParams;
@@ -67,16 +67,6 @@ public class CameraInterfaceIMPL {
         }
     };
 
-    /**
-     * 摄像头打开之后的回调监听
-     */
-    public interface CameraOpenOverCallback {
-        /**
-         * 摄像头打开之后的回调
-         */
-        void cameraHasOpened();
-    }
-
     private CameraInterfaceIMPL() {
 
     }
@@ -97,7 +87,7 @@ public class CameraInterfaceIMPL {
      *
      * @param callback
      */
-    public void doOpenCamera(CameraOpenOverCallback callback) {
+    public void doOpenCamera(ICameraOpenOverCallback callback) {
         Log.i(TAG, "Camera open....");
         mCamera = Camera.open();
         Log.i(TAG, "Camera open over....");
@@ -217,9 +207,6 @@ public class CameraInterfaceIMPL {
         }
     }
 
-    /**
-     * 设置相机焦距
-     */
     public void setZoom(int mValue) {
         if (isSupportCallCamera()) {
             Camera.Parameters mParams = mCamera.getParameters();
@@ -229,7 +216,6 @@ public class CameraInterfaceIMPL {
     }
 
     ///////////////////////Camera支持校验方法////////////////////
-    /**是否可以调用Camera*/
     public boolean isSupportCallCamera() {
         if (isPreviewing && (mCamera != null)) {
             return true;
@@ -237,7 +223,6 @@ public class CameraInterfaceIMPL {
         return false;
     }
 
-    /**Camera是否支持缩放焦距*/
     public boolean isSupportZoom() {
         if (isSupportCallCamera()&&
                 mCamera.getParameters().isSmoothZoomSupported()) {
@@ -245,6 +230,12 @@ public class CameraInterfaceIMPL {
         }
         return false;
     }
+
+    @Override
+    public void autoFocus() {
+
+    }
+
     /**Camera是否支持自动白平衡锁*/
     public boolean isSupportAutoWhiteBalanceLock() {
         if (isSupportCallCamera()&&

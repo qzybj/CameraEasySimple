@@ -14,6 +14,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import java.util.List;
 import camerademo.earll.com.camerademo.R;
+import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraOpenOverCallback;
 import camerademo.earll.com.camerademo.module.camera.interfaces.impl.CameraInterfaceIMPL;
 import camerademo.earll.com.camerademo.module.camera.view.CameraSurfaceView;
 import camerademo.earll.com.camerademo.ui.base.BaseActivity;
@@ -22,7 +23,7 @@ import camerademo.earll.com.camerademo.ui.base.BaseActivity;
 /**
  * 自定实现处理
  */
-public class SimpleCameraActivity extends BaseActivity implements CameraInterfaceIMPL.CameraOpenOverCallback{
+public class SimpleCameraActivity extends BaseActivity implements ICameraOpenOverCallback {
 
     @ViewInject(R.id.camera_surfaceview)
     CameraSurfaceView surfaceView;
