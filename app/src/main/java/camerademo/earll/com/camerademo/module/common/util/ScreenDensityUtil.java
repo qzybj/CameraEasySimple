@@ -1,4 +1,4 @@
-package camerademo.earll.com.camerademo.module.camera.utils;
+package camerademo.earll.com.camerademo.module.common.util;
 
 
 import android.graphics.Point;
@@ -10,8 +10,8 @@ import android.util.Log;
  * Created by ZhangYuanBo on 2016/5/12.
  */
 
-public class CameraDisplayUtil {
-    private static final String TAG = "CameraDisplayUtil";
+public class ScreenDensityUtil {
+    private static final String TAG = "ScreenDensityUtil";
 
     /**
      * dip转px

@@ -1,4 +1,4 @@
-package camerademo.earll.com.camerademo.module.camera.utils;
+package camerademo.earll.com.camerademo.module.common.util;
 
 
 import android.graphics.Bitmap;
@@ -7,7 +7,7 @@ import android.graphics.Matrix;
 /**
  * Created by ZhangYuanBo on 2016/5/12.
  */
-public class CameraImageUtil {
+public class BitmapUtil {
     /**
      * 旋转Bitmap
      * @param b

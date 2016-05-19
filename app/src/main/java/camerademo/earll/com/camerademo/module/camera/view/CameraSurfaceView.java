@@ -9,10 +9,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.ViewGroup;
-
 import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraOpenOverCallback;
 import camerademo.earll.com.camerademo.module.camera.interfaces.impl.CameraInterfaceIMPL;
-import camerademo.earll.com.camerademo.module.camera.utils.CameraDisplayUtil;
+import camerademo.earll.com.camerademo.module.common.util.ScreenDensityUtil;
 
 /**
  * Created by ZhangYuanBo on 2016/5/12.
@@ -34,13 +33,13 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mSurfaceHolder.setFormat(PixelFormat.TRANSPARENT);//translucent半透明 transparent透明
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mSurfaceHolder.addCallback(this);
-        previewRate = CameraDisplayUtil.getScreenRate(mContext); //默认全屏的比例预览
+        previewRate = ScreenDensityUtil.getScreenRate(mContext); //默认全屏的比例预览
     }
 
     /**要对SurfaceView进行宽高初始化，否则会有显示问题*/
     public void initSurfaceView(){
         ViewGroup.LayoutParams params = getLayoutParams();
-        Point p = CameraDisplayUtil.getScreenMetrics(mContext);
+        Point p = ScreenDensityUtil.getScreenMetrics(mContext);
         params.width = p.x;
         params.height = p.y;
         setLayoutParams(params);
@@ -81,7 +80,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
-    /**设置对外暴露实现打开摄像头回调监听*/
+    /**设置对外暴露实现打开摄像头回调监听<br/>
+     * 之所以在这里设置该监听，是用来处理 surfaceCreated 时才实际上开始打开camera */
     public void setCameraHasOpenedCallBack(ICameraOpenOverCallback callBack) {
         mCameraOpenOverCallback = callBack;
     }

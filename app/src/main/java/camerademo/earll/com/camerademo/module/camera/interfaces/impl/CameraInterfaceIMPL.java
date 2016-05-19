@@ -15,8 +15,8 @@ import java.util.List;
 import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraInterface;
 import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraOpenOverCallback;
 import camerademo.earll.com.camerademo.module.camera.utils.CameraUtil;
-import camerademo.earll.com.camerademo.module.camera.utils.CameraFileUtil;
-import camerademo.earll.com.camerademo.module.camera.utils.CameraImageUtil;
+import camerademo.earll.com.camerademo.module.common.util.FileUtil;
+import camerademo.earll.com.camerademo.module.common.util.BitmapUtil;
 
 
 /**
@@ -58,8 +58,8 @@ public class CameraInterfaceIMPL implements ICameraInterface {
             if (null != b) {
                 //设置FOCUS_MODE_CONTINUOUS_VIDEO)之后，myParam.set("rotation", 90)失效。
                 //图片竟然不能旋转了，故这里要旋转下
-                Bitmap rotaBitmap = CameraImageUtil.getRotateBitmap(b, 90.0f);
-                CameraFileUtil.saveBitmap(rotaBitmap);
+                Bitmap rotaBitmap = BitmapUtil.getRotateBitmap(b, 90.0f);
+                FileUtil.saveBitmap(rotaBitmap);
             }
             //再次进入预览
             mCamera.startPreview();

@@ -9,23 +9,22 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by ZhangYuanBo on 2016/5/12.
+ * Camera 操作辅助类
  */
 public class CameraUtil {
     private static final String TAG = "yanzi";
     private CameraSizeComparator sizeComparator = new CameraSizeComparator();
-    private static CameraUtil myCamPara = null;
+    private static CameraUtil instance = null;
 
     private CameraUtil() {
-
     }
 
     public static CameraUtil getInstance() {
-        if (myCamPara == null) {
-            myCamPara = new CameraUtil();
-            return myCamPara;
+        if (instance == null) {
+            instance = new CameraUtil();
+            return instance;
         } else {
-            return myCamPara;
+            return instance;
         }
     }
 
@@ -48,7 +47,6 @@ public class CameraUtil {
 
     public Size getPropPictureSize(List<Camera.Size> list, float th, int minWidth) {
         Collections.sort(list, sizeComparator);
-
         int i = 0;
         for (Size s : list) {
             if ((s.width >= minWidth) && equalRate(s, th)) {
@@ -83,7 +81,6 @@ public class CameraUtil {
                 return -1;
             }
         }
-
     }
 
     /**
@@ -97,7 +94,6 @@ public class CameraUtil {
             Size size = previewSizes.get(i);
             Log.i(TAG, "previewSizes:width = " + size.width + " height = " + size.height);
         }
-
     }
 
     /**
