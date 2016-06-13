@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import java.io.IOException;
 import java.util.List;
+
+import camerademo.earll.com.camerademo.module.camera.config.CCameraConfig;
 import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraInterface;
 import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraOpenOverCallback;
 import camerademo.earll.com.camerademo.module.camera.utils.CameraUtil;
@@ -23,7 +25,7 @@ import camerademo.earll.com.camerademo.module.common.util.BitmapUtil;
  * Created by ZhangYuanBo on 2016/5/12.
  */
 public class CameraInterfaceIMPL implements ICameraInterface {
-    private static final String TAG = "yanzi";
+    private static final String TAG = CCameraConfig.TAG;
     private Camera mCamera;
     private Camera.Parameters mParams;
     private boolean isPreviewing = false;
@@ -187,7 +189,7 @@ public class CameraInterfaceIMPL implements ICameraInterface {
      */
     public void doTakePicture() {
         if (isSupportCallCamera()) {
-            mCamera.takePicture(mShutterCallback, mRawCallback, mJpegPictureCallback);
+            mCamera.takePicture(null, mRawCallback, mJpegPictureCallback);
         }
     }
 

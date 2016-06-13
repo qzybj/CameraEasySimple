@@ -37,25 +37,24 @@
         android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <application
-        >
+    <application>
         <activity
             android:name="com.yalantis.cameramodule.activity.CameraActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/style_activity_common"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/style_activity_common" />
 
         <activity
             android:name="com.yalantis.cameramodule.activity.PhotoCropActivity"
             android:label="@string/lbl_photo_crop"
-            android:theme="@style/style_activity_common"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/style_activity_common" />
 
         <activity
             android:name="com.yalantis.cameramodule.activity.PhotoPreviewActivity"
             android:label="@string/lbl_photo_preview"
-            android:theme="@style/style_activity_common"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/style_activity_common" />
     </application>
 
 </manifest>

@@ -6,10 +6,13 @@ import android.os.Environment;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import com.yalantis.cameramodule.activity.CameraActivity;
+
+
+import com.custom.cameralibrary.ui.activity.CameraActivity;
+
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-import camerademo.earll.com.camerademo.ui.SimpleEasyCameraActivity;
+
 import camerademo.earll.com.camerademo.ui.SimpleCameraActivity;
 import camerademo.earll.com.camerademo.ui.base.BaseActivity;
 
@@ -30,7 +33,7 @@ public class MainActivity extends BaseActivity {
     Button btn_gosimple2;
     @Event(value = R.id.btn_gosimple2, type = View.OnClickListener.class)
     private void clickBtn2(View view) {
-        goActivity(SimpleEasyCameraActivity.class,null);
+        openCameraCustom();
     }
 
     @ViewInject(R.id.btn_gosimple3)
@@ -49,7 +52,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initUI(){
         setSupportActionBar(toolbar);
-        btn_gosimple2.setVisibility(View.GONE);
+        //btn_gosimple2.setVisibility(View.GONE);
     }
 
     @Override
@@ -66,6 +69,13 @@ public class MainActivity extends BaseActivity {
     }
 
     public void openCamera() {
+        Intent intent = new Intent(this, CameraActivity.class);
+        intent.putExtra(CameraActivity.PATH, Environment.getExternalStorageDirectory().getPath());
+        intent.putExtra(CameraActivity.OPEN_PHOTO_PREVIEW, true);
+        intent.putExtra(CameraActivity.USE_FRONT_CAMERA, false);
+        startActivity(intent);
+    }
+    public void openCameraCustom() {
         Intent intent = new Intent(this, CameraActivity.class);
         intent.putExtra(CameraActivity.PATH, Environment.getExternalStorageDirectory().getPath());
         intent.putExtra(CameraActivity.OPEN_PHOTO_PREVIEW, true);

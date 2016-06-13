@@ -2,7 +2,8 @@ package camerademo.earll.com.camerademo;
 
 import android.app.Application;
 
-import com.yalantis.cameramodule.ManagerInitializer;
+import com.custom.cameralibrary.ManagerInitializer;
+
 
 /**
  * Created by ZhangYuanBo on 2016/5/13.

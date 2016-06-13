@@ -8,11 +8,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import camerademo.earll.com.camerademo.module.camera.config.CCameraConfig;
+
 /**
  * Camera 操作辅助类
  */
 public class CameraUtil {
-    private static final String TAG = "yanzi";
+
     private CameraSizeComparator sizeComparator = new CameraSizeComparator();
     private static CameraUtil instance = null;
 
@@ -34,7 +36,7 @@ public class CameraUtil {
         int i = 0;
         for (Size s : list) {
             if ((s.width >= minWidth) && equalRate(s, th)) {
-                Log.i(TAG, "PreviewSize:w = " + s.width + "h = " + s.height);
+                Log.i(CCameraConfig.TAG, "PreviewSize:w = " + s.width + "h = " + s.height);
                 break;
             }
             i++;
@@ -50,7 +52,7 @@ public class CameraUtil {
         int i = 0;
         for (Size s : list) {
             if ((s.width >= minWidth) && equalRate(s, th)) {
-                Log.i(TAG, "PictureSize : w = " + s.width + "h = " + s.height);
+                Log.i(CCameraConfig.TAG, "PictureSize : w = " + s.width + "h = " + s.height);
                 break;
             }
             i++;
@@ -92,7 +94,7 @@ public class CameraUtil {
         List<Size> previewSizes = params.getSupportedPreviewSizes();
         for (int i = 0; i < previewSizes.size(); i++) {
             Size size = previewSizes.get(i);
-            Log.i(TAG, "previewSizes:width = " + size.width + " height = " + size.height);
+            Log.i(CCameraConfig.TAG, "previewSizes:width = " + size.width + " height = " + size.height);
         }
     }
 
@@ -105,7 +107,7 @@ public class CameraUtil {
         List<Size> pictureSizes = params.getSupportedPictureSizes();
         for (int i = 0; i < pictureSizes.size(); i++) {
             Size size = pictureSizes.get(i);
-            Log.i(TAG, "pictureSizes:width = " + size.width
+            Log.i(CCameraConfig.TAG, "pictureSizes:width = " + size.width
                     + " height = " + size.height);
         }
     }
@@ -118,7 +120,7 @@ public class CameraUtil {
     public void printSupportFocusMode(Camera.Parameters params) {
         List<String> focusModes = params.getSupportedFocusModes();
         for (String mode : focusModes) {
-            Log.i(TAG, "focusModes--" + mode);
+            Log.i(CCameraConfig.TAG, "focusModes--" + mode);
         }
     }
 }

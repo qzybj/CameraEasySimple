@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
 /**
- * Created by ZhangYuanBo on 2016/5/12.
+ * Bitmap工具类(简版)
  */
 public class BitmapUtil {
     /**

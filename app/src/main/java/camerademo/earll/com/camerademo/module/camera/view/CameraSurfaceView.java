@@ -1,6 +1,5 @@
 package camerademo.earll.com.camerademo.module.camera.view;
 
-
 import android.graphics.Point;
 import android.view.SurfaceView;
 import android.content.Context;
@@ -9,15 +8,16 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.ViewGroup;
+import camerademo.earll.com.camerademo.module.camera.config.CCameraConfig;
 import camerademo.earll.com.camerademo.module.camera.interfaces.ICameraOpenOverCallback;
 import camerademo.earll.com.camerademo.module.camera.interfaces.impl.CameraInterfaceIMPL;
 import camerademo.earll.com.camerademo.module.common.util.ScreenDensityUtil;
 
 /**
- * Created by ZhangYuanBo on 2016/5/12.
+ *  用来处理Camera显示的SurfaceView
  */
 public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback ,ICameraOpenOverCallback {
-    private static final String TAG = CameraSurfaceView.class.getSimpleName();
+    private static final String TAG = CCameraConfig.TAG;
     Context mContext;
     SurfaceHolder mSurfaceHolder;
     float previewRate = -1f;

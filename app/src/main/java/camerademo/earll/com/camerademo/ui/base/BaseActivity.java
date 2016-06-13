@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import org.xutils.x;
 import camerademo.earll.com.camerademo.R;
-import camerademo.earll.com.camerademo.ui.SimpleEasyCameraActivity;
 
 
 public abstract class BaseActivity extends AppCompatActivity {

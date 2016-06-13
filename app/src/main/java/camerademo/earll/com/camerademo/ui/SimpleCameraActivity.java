@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import com.yalantis.cameramodule.adapters.ObjectToStringAdapter;
+import com.custom.cameralibrary.ui.adapters.ObjectToStringAdapter;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import java.util.List;
