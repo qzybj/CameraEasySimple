@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 
 
+import com.custom.cameralibrary.module.camera.config.CameraConstant;
 import com.custom.cameralibrary.ui.activity.CameraActivity;
+import com.custom.cameralibrary.ui.activity.CameraCustomActivity;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -68,18 +70,19 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    public void openCameraCustom() {
+        Intent intent = new Intent(this, CameraCustomActivity.class);
+        intent.putExtra(CameraConstant.KEY_PATH, Environment.getExternalStorageDirectory().getPath());
+        intent.putExtra(CameraConstant.KEY_OPEN_PHOTO_PREVIEW, false);
+        startActivity(intent);
+    }
+
     public void openCamera() {
         Intent intent = new Intent(this, CameraActivity.class);
-        intent.putExtra(CameraActivity.PATH, Environment.getExternalStorageDirectory().getPath());
-        intent.putExtra(CameraActivity.OPEN_PHOTO_PREVIEW, true);
-        intent.putExtra(CameraActivity.USE_FRONT_CAMERA, false);
+        intent.putExtra(CameraConstant.KEY_PATH, Environment.getExternalStorageDirectory().getPath());
+        intent.putExtra(CameraConstant.KEY_OPEN_PHOTO_PREVIEW, true);
+        intent.putExtra(CameraConstant.KEY_USE_FRONT_CAMERA, false);
         startActivity(intent);
     }
-    public void openCameraCustom() {
-        Intent intent = new Intent(this, CameraActivity.class);
-        intent.putExtra(CameraActivity.PATH, Environment.getExternalStorageDirectory().getPath());
-        intent.putExtra(CameraActivity.OPEN_PHOTO_PREVIEW, true);
-        intent.putExtra(CameraActivity.USE_FRONT_CAMERA, false);
-        startActivity(intent);
-    }
+
 }

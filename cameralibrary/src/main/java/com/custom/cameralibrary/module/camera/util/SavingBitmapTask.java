@@ -68,7 +68,6 @@ public class SavingBitmapTask extends AsyncTask<Void, Void, Void> {
                 Timber.e(e, e.getMessage());
             }
         }
-
         return null;
     }
 

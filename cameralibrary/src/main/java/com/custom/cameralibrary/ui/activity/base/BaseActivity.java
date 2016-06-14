@@ -21,7 +21,8 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.custom.cameralibrary.ui.base;
+package com.custom.cameralibrary.ui.activity.base;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,8 +42,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        handler = new Handler(new Handler.Callback() {
-
+        handler = new Handler(
+                new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 return BaseActivity.this.handleMessage(msg);

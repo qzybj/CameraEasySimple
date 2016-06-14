@@ -1,29 +1,5 @@
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014 Zillow
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is furnished
- * to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 package com.custom.cameralibrary.ui.fragment;
 
-import android.content.res.Resources;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -50,21 +26,18 @@ import com.custom.cameralibrary.module.camera.model.FocusMode;
 import com.custom.cameralibrary.module.camera.model.HDRMode;
 import com.custom.cameralibrary.module.camera.model.Quality;
 import com.custom.cameralibrary.module.camera.model.Ratio;
+import com.custom.cameralibrary.module.camera.util.CameraArgUtils;
+import com.custom.cameralibrary.module.camera.util.ResourcesUtils;
 import com.custom.cameralibrary.module.camera.view.CameraPreview;
 import com.custom.cameralibrary.ui.fragment.base.BaseFragment;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import timber.log.Timber;
 
 
-public class CameraFragment extends BaseFragment implements PhotoSavedListener, KeyEventsListener, CameraParamsChangedListener, FocusCallback {
-
-
+/**自定义样式：拍照UI及逻辑实现*/
+public class CameraCustomFragment extends BaseFragment implements PhotoSavedListener, KeyEventsListener, CameraParamsChangedListener, FocusCallback {
 
     private PhotoTakenCallback callback;
     private RawPhotoTakenCallback rawCallback;
@@ -92,10 +65,19 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
     private Camera.Parameters parameters;
     private CameraPreview cameraPreview;
     private ViewGroup previewContainer;
-    private View mCapture;
+
+    /**处理中进度条*/
     private ProgressBar progressBar;
-    private ImageButton flashModeButton;
+
+    /**焦距显示文本*/
     private TextView mZoomRatioTextView;
+    /**闪光灯模式*/
+    private ImageButton flashModeButton;
+    /**拍照*/
+    private View mCapture;
+    /**Camera附加设置*/
+    private View cameraSettings;
+
     private HDRMode hdrMode;
     private boolean supportedHDR = false;
     private boolean supportedFlash = false;
@@ -103,39 +85,111 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
     private int cameraId;
     private int outputOrientation;
 
-    public static CameraFragment newInstance(int layoutId, PhotoTakenCallback callback, Bundle params) {
-        CameraFragment fragment = new CameraFragment();
-        fragment.layoutId = layoutId;
+    public static CameraCustomFragment newInstance(PhotoTakenCallback callback, Bundle params) {
+        CameraCustomFragment fragment = new CameraCustomFragment();
         fragment.callback = callback;
+        fragment.layoutId = R.layout.fragment_customcamera;
         fragment.setArguments(params);
-
-        return fragment;
-    }
-
-    public static CameraFragment newInstance(PhotoTakenCallback callback, Bundle params) {
-        CameraFragment fragment = new CameraFragment();
-        fragment.callback = callback;
-        fragment.layoutId = R.layout.fragment_camera;
-        fragment.setArguments(params);
-
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initCamera();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (camera == null) {
+            return inflater.inflate(R.layout.fragment_no_camera, container, false);
+        }
+        View view = inflater.inflate(layoutId, container, false);
+        try {
+            previewContainer = (ViewGroup) view.findViewById(R.id.camera_preview);
+        } catch (NullPointerException e) {
+            throw new RuntimeException("You should add container that extends ViewGroup for CameraPreview.");
+        }
+
+        ImageView canvasFrame = new ImageView(activity);//对象中心点图标
+        cameraPreview = new CameraPreview(activity, camera, canvasFrame, this, this);
+        previewContainer.addView(cameraPreview);
+        previewContainer.addView(canvasFrame);
+        cameraPreview.setFocusMode(focusMode);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
+
+        mCapture = view.findViewById(R.id.ibtn_capture);
+        if (mCapture != null) {
+            mCapture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    takePhoto();
+                }
+            });
+        }
+        flashModeButton = (ImageButton) view.findViewById(R.id.flash_mode);
+        flashModeButton.setVisibility(View.GONE);//不需要显示
+        if (flashModeButton != null) {
+            if (supportedFlash) {
+                flashModeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switchFlashMode();
+                        onFlashModeChanged(flashMode.getId());
+                    }
+                });
+                setFlashModeImage(flashMode);
+            } else {
+                flashModeButton.setVisibility(Button.GONE);
+            }
+        }
+
+        setPreviewContainerSize(mScreenWidth, mScreenHeight, ratio);
+
+        mZoomRatioTextView = (TextView) view.findViewById(R.id.zoom_ratio);
+        mZoomRatioTextView.setVisibility(View.GONE);//不需要显示
+        if (mZoomRatioTextView != null) {
+            setZoomRatioText(zoomIndex);
+        }
+
+        cameraSettings = view.findViewById(R.id.camera_settings);
+        cameraSettings.setVisibility(View.GONE);//不需要显示
+        if (cameraSettings != null) {
+            view.findViewById(R.id.camera_settings).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CameraSettingsDialogFragment.newInstance(packSettings(), CameraCustomFragment.this).show(getFragmentManager());
+                }
+            });
+        }
+
+        View controls = view.findViewById(R.id.controls_layout);
+        if (controls != null) {
+            RelativeLayout.LayoutParams params =
+                    new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,150);
+            params.topMargin = mStatusBarHeight;
+            params.bottomMargin = mNavigationBarHeight;
+            controls.setLayoutParams(params);
+        }
+        return view;
+    }
+
+
+    /**初始化Camera*/
+    private void initCamera() {
         boolean useFrontCamera = getArguments().getBoolean(CameraConstant.KEY_FRONT_CAMERA, false);
-        camera = getCameraInstance(useFrontCamera);
+        camera = getCameraInstance(useFrontCamera);//获取Camera 实例
         if (camera == null) {
             return;
         }
         initScreenParams();
-        parameters = camera.getParameters();
+        parameters = camera.getParameters();//获取Camera参数集合
         zoomRatios = parameters.getZoomRatios();
         zoomIndex = minZoomIndex = 0;
         maxZoomIndex = parameters.getMaxZoom();
-        previewSizes = buildPreviewSizesRatioMap(parameters.getSupportedPreviewSizes());
-        pictureSizes = buildPictureSizesRatioMap(parameters.getSupportedPictureSizes());
+        previewSizes = CameraArgUtils.buildPreviewSizesRatioMap(parameters.getSupportedPreviewSizes());
+        pictureSizes = CameraArgUtils.buildPictureSizesRatioMap(parameters.getSupportedPictureSizes());
         List<String> sceneModes = parameters.getSupportedSceneModes();
         if (sceneModes != null) {
             for (String mode : sceneModes) {
@@ -145,11 +199,8 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
                 }
             }
         }
-        //it returns false positive
-        /*getActivity().getApplicationContext().getPackageManager()
-                .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);*/
         List<String> flashModes = parameters.getSupportedFlashModes();
-        if (flashModes == null || flashModes.size() <= 1) { /* Device has no flash */
+        if (flashModes == null || flashModes.size() <= 1) {
             supportedFlash = false;
         } else {
             supportedFlash = true;
@@ -167,87 +218,15 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
             }
         }
         expandParams(getArguments());
-        initParams();
+        initCameraParams();
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (camera == null) {
-            return inflater.inflate(R.layout.fragment_no_camera, container, false);
-        }
-        View view = inflater.inflate(layoutId, container, false);
-
-        try {
-            previewContainer = (ViewGroup) view.findViewById(R.id.camera_preview);
-        } catch (NullPointerException e) {
-            throw new RuntimeException("You should add container that extends ViewGroup for CameraPreview.");
-        }
-        ImageView canvasFrame = new ImageView(activity);
-        cameraPreview = new CameraPreview(activity, camera, canvasFrame, this, this);
-        previewContainer.addView(cameraPreview);
-        previewContainer.addView(canvasFrame);
-        cameraPreview.setFocusMode(focusMode);
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progress);
-
-        mCapture = view.findViewById(R.id.ibtn_capture);
-        if (mCapture != null) {
-            mCapture.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    takePhoto();
-                }
-
-            });
-        }
-
-        flashModeButton = (ImageButton) view.findViewById(R.id.flash_mode);
-        if (flashModeButton != null) {
-            if (supportedFlash) {
-                flashModeButton.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        switchFlashMode();
-                        onFlashModeChanged(flashMode.getId());
-                    }
-                });
-                setFlashModeImage(flashMode);
-            } else {
-                flashModeButton.setVisibility(Button.GONE);
-            }
-        }
-
-        setPreviewContainerSize(mScreenWidth, mScreenHeight, ratio);
-
-        mZoomRatioTextView = (TextView) view.findViewById(R.id.zoom_ratio);
-        if (mZoomRatioTextView != null) {
-            setZoomRatioText(zoomIndex);
-        }
-
-        View cameraSettings = view.findViewById(R.id.camera_settings);
-        if (cameraSettings != null) {
-            view.findViewById(R.id.camera_settings).setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    CameraSettingsDialogFragment.newInstance(packSettings(), CameraFragment.this).show(getFragmentManager());
-                }
-            });
-        }
-
-        View controls = view.findViewById(R.id.controls_layout);
-        if (controls != null) {
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.MATCH_PARENT);
-            params.topMargin = mStatusBarHeight;
-            params.bottomMargin = mNavigationBarHeight;
-            controls.setLayoutParams(params);
-        }
-
-        return view;
+    /**初始化Camera参数*/
+    private void initCameraParams() {
+        setFlashMode(parameters, flashMode);
+        setPreviewSize(parameters, ratio);
+        setHDRMode(parameters, hdrMode);
+        setPictureSize(parameters, quality, ratio);
+        camera.setParameters(parameters);
     }
 
     /**
@@ -256,37 +235,12 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
     private Camera getCameraInstance(boolean useFrontCamera) {
         Camera c = null;
         try {
-            c = Camera.open(getCameraId(useFrontCamera));
+            cameraId = CameraArgUtils.getCameraId(useFrontCamera);
+            c = Camera.open(cameraId);
         } catch (Exception e) {
             Timber.e(e, getString(R.string.lbl_camera_unavailable));
         }
         return c;
-    }
-
-    private int getCameraId(boolean useFrontCamera) {
-        int count = Camera.getNumberOfCameras();
-        int result = -1;
-
-        if (count > 0) {
-            result = 0;
-
-            Camera.CameraInfo info = new Camera.CameraInfo();
-            for (int i = 0; i < count; i++) {
-                Camera.getCameraInfo(i, info);
-
-                if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK
-                        && !useFrontCamera) {
-                    result = i;
-                    break;
-                } else if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT
-                        && useFrontCamera) {
-                    result = i;
-                    break;
-                }
-            }
-        }
-        cameraId = result;
-        return result;
     }
 
     @Override
@@ -296,7 +250,7 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
             try {
                 camera.reconnect();
             } catch (IOException e) {
-                e.printStackTrace();
+                Timber.e(e,e.getLocalizedMessage());
             }
         }
         if (orientationListener == null) {
@@ -305,6 +259,7 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
         orientationListener.enable();
     }
 
+    /**初始化屏幕参数*/
     private void initScreenParams() {
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -315,20 +270,11 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
     }
 
     private int getNavigationBarHeight() {
-        return getPixelSizeByName("navigation_bar_height");
+        return ResourcesUtils.getPixelSizeByName(getActivity(),"navigation_bar_height");
     }
 
     private int getStatusBarHeight() {
-        return getPixelSizeByName("status_bar_height");
-    }
-
-    private int getPixelSizeByName(String name) {
-        Resources resources = getResources();
-        int resourceId = resources.getIdentifier(name, "dimen", "android");
-        if (resourceId > 0) {
-            return resources.getDimensionPixelSize(resourceId);
-        }
-        return 0;
+        return ResourcesUtils.getPixelSizeByName(getActivity(),"status_bar_height");
     }
 
     public void setCallback(PhotoTakenCallback callback) {
@@ -362,14 +308,12 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
     }
 
     private Camera.PictureCallback rawPictureCallback = new Camera.PictureCallback() {
-
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             if (rawCallback != null && data != null) {
                 rawCallback.rawPhotoTaken(data.clone());
             }
         }
-
     };
 
     @Override
@@ -390,6 +334,7 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
         }
     }
 
+    /**初始化参数变量*/
     private void expandParams(Bundle params) {
         if (params == null) {
             params = new Bundle();
@@ -421,24 +366,14 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
         hdrMode = HDRMode.getHDRModeById(id);
     }
 
+    /**生成参数集合*/
     private Bundle packSettings() {
         Bundle params = new Bundle();
-
         params.putInt(CameraConstant.KEY_QUALITY, quality.getId());
-        params.putInt(CameraConstant.KEY_RATIO, ratio.getId());
+        //params.putInt(CameraConstant.KEY_RATIO, ratio.getId());//比例
         params.putInt(CameraConstant.KEY_FOCUS_MODE, focusMode.getId());
         params.putInt(CameraConstant.KEY_HDR_MODE, hdrMode.getId());
         return params;
-    }
-
-    private void initParams() {
-        setFlashMode(parameters, flashMode);
-
-        setPreviewSize(parameters, ratio);
-        setHDRMode(parameters, hdrMode);
-        setPictureSize(parameters, quality, ratio);
-
-        camera.setParameters(parameters);
     }
 
     @Override
@@ -498,18 +433,18 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
 
     @Override
     public void zoomIn() {
-        if (++zoomIndex > maxZoomIndex) {
-            zoomIndex = maxZoomIndex;
-        }
-        setZoom(zoomIndex);
+//        if (++zoomIndex > maxZoomIndex) {
+//            zoomIndex = maxZoomIndex;
+//        }
+//        setZoom(zoomIndex);
     }
 
     @Override
     public void zoomOut() {
-        if (--zoomIndex < minZoomIndex) {
-            zoomIndex = minZoomIndex;
-        }
-        setZoom(zoomIndex);
+//        if (--zoomIndex < minZoomIndex) {
+//            zoomIndex = minZoomIndex;
+//        }
+//        setZoom(zoomIndex);
     }
 
     @Override
@@ -616,74 +551,6 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
         previewContainer.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
     }
 
-    private Map<Ratio, Map<Quality, Camera.Size>> buildPictureSizesRatioMap(List<Camera.Size> sizes) {
-        Map<Ratio, Map<Quality, Camera.Size>> map = new HashMap<>();
-
-        Map<Ratio, List<Camera.Size>> ratioListMap = new HashMap<>();
-        for (Camera.Size size : sizes) {
-            Ratio ratio = Ratio.pickRatio(size.width, size.height);
-            if (ratio != null) {
-                List<Camera.Size> sizeList = ratioListMap.get(ratio);
-                if (sizeList == null) {
-                    sizeList = new ArrayList<>();
-                    ratioListMap.put(ratio, sizeList);
-                }
-                sizeList.add(size);
-            }
-        }
-        for (Ratio r : ratioListMap.keySet()) {
-            List<Camera.Size> list = ratioListMap.get(r);
-            ratioListMap.put(r, sortSizes(list));
-            Map<Quality, Camera.Size> sizeMap = new HashMap<>();
-            int i = 0;
-            for (Quality q : Quality.values()) {
-                Camera.Size size = null;
-                if (i < list.size()) {
-                    size = list.get(i++);
-                }
-                sizeMap.put(q, size);
-            }
-            map.put(r, sizeMap);
-        }
-
-        return map;
-    }
-
-    private List<Camera.Size> sortSizes(List<Camera.Size> sizes) {
-        int count = sizes.size();
-
-        while (count > 2) {
-            for (int i = 0; i < count - 1; i++) {
-                Camera.Size current = sizes.get(i);
-                Camera.Size next = sizes.get(i + 1);
-
-                if (current.width < next.width || current.height < next.height) {
-                    sizes.set(i, next);
-                    sizes.set(i + 1, current);
-                }
-            }
-            count--;
-        }
-
-        return sizes;
-    }
-
-    private Map<Ratio, Camera.Size> buildPreviewSizesRatioMap(List<Camera.Size> sizes) {
-        Map<Ratio, Camera.Size> map = new HashMap<>();
-
-        for (Camera.Size size : sizes) {
-            Ratio ratio = Ratio.pickRatio(size.width, size.height);
-            if (ratio != null) {
-                Camera.Size oldSize = map.get(ratio);
-                if (oldSize == null || (oldSize.width < size.width || oldSize.height < size.height)) {
-                    map.put(ratio, size);
-                }
-            }
-        }
-
-        return map;
-    }
-
     @Override
     public void photoSaved(String path, String name) {
         mCapture.setEnabled(true);
@@ -693,17 +560,15 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
         }
     }
 
+    /** 初始化图片旋转角度监听*/
     private void initOrientationListener() {
         orientationListener = new OrientationEventListener(activity) {
-
             @Override
             public void onOrientationChanged(int orientation) {
                 if (camera != null && orientation != ORIENTATION_UNKNOWN) {
-                    int newOutputOrientation = getCameraPictureRotation(orientation);
-
+                    int newOutputOrientation = CameraArgUtils.getCameraPictureRotation(orientation,cameraId);
                     if (newOutputOrientation != outputOrientation) {
                         outputOrientation = newOutputOrientation;
-
                         Camera.Parameters params = camera.getParameters();
                         params.setRotation(outputOrientation);
                         try {
@@ -717,19 +582,4 @@ public class CameraFragment extends BaseFragment implements PhotoSavedListener, 
         };
     }
 
-    private int getCameraPictureRotation(int orientation) {
-        Camera.CameraInfo info = new Camera.CameraInfo();
-        Camera.getCameraInfo(cameraId, info);
-        int rotation;
-
-        orientation = (orientation + 45) / 90 * 90;
-
-        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            rotation = (info.orientation - orientation + 360) % 360;
-        } else { // back-facing camera
-            rotation = (info.orientation + orientation) % 360;
-        }
-
-        return (rotation);
-    }
 }

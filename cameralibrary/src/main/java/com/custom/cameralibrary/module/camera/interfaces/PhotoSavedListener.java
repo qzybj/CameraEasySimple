@@ -23,8 +23,13 @@
 
 package com.custom.cameralibrary.module.camera.interfaces;
 
+/**图片保存监听*/
 public interface PhotoSavedListener {
-
+    /**
+     * 图片保存成功后的回调
+     * @param path
+     * @param name
+     */
      void photoSaved(String path, String name);
 
 }

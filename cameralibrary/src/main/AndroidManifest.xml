@@ -19,19 +19,25 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-
+        <!--打开拍摄界面-->
         <activity
             android:name="com.custom.cameralibrary.ui.activity.CameraActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/style_activity_common_notitle" />
-
+        <!--打开自定义样式拍摄界面-->
+        <activity
+            android:name="com.custom.cameralibrary.ui.activity.CameraCustomActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/style_activity_common_notitle" />
+        <!--打开剪裁界面-->
         <activity
             android:name="com.custom.cameralibrary.ui.activity.PhotoCropActivity"
             android:label="@string/lbl_photo_crop"
             android:screenOrientation="portrait"
             android:theme="@style/style_activity_common_notitle" />
-
+        <!--打开预览界面-->
         <activity
             android:name="com.custom.cameralibrary.ui.activity.PhotoPreviewActivity"
             android:label="@string/lbl_photo_preview"

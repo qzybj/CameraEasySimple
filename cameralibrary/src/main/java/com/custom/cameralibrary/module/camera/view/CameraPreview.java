@@ -56,6 +56,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private static final float FOCUS_AREA_FULL_SIZE = 2000f;
     private static final int ACCURACY = 3;
 
+    /**是否显示对焦定位框*/
+    private static final boolean IS_SHOW_FOCUSFRAME = false;
+
     private Activity activity;
     private Camera camera;
 
@@ -74,6 +77,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Rect tapArea;
     private KeyEventsListener keyEventsListener;
 
+    /**
+     * @param activity
+     * @param camera
+     * @param canvasFrame 中心的对焦正方形框
+     * @param focusCallback 对焦回调
+     * @param keyEventsListener
+     */
     public CameraPreview(Activity activity, Camera camera, ImageView canvasFrame, FocusCallback focusCallback, KeyEventsListener keyEventsListener) {
         super(activity);
         this.activity = activity;
@@ -150,7 +160,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         if (!focusing) {
             focused = false;
             focusing = true;
-            if (focusMode == FocusMode.AUTO || (focusMode == FocusMode.TOUCH && tapArea == null)) {
+            if ((focusMode == FocusMode.AUTO || (focusMode == FocusMode.TOUCH && tapArea == null))&&IS_SHOW_FOCUSFRAME) {
                 drawFocusFrame(createAutoFocusRect());
             }
             camera.autoFocus(this);
@@ -370,7 +380,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 scale(detector.getScaleFactor());
                 return true;
             }
-
         }
 
         private class TapListener extends GestureDetector.SimpleOnGestureListener {
@@ -380,9 +389,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 focusOnTouch(event);
                 return true;
             }
-
         }
-
     }
-
 }

@@ -33,13 +33,14 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.custom.cameralibrary.R;
+import com.custom.cameralibrary.module.camera.config.CameraConstant;
 import com.custom.cameralibrary.module.camera.interfaces.CameraParamsChangedListener;
 import com.custom.cameralibrary.module.camera.model.FocusMode;
 import com.custom.cameralibrary.module.camera.model.HDRMode;
 import com.custom.cameralibrary.module.camera.model.Quality;
 import com.custom.cameralibrary.module.camera.model.Ratio;
 import com.custom.cameralibrary.ui.adapters.ObjectToStringAdapter;
-import com.custom.cameralibrary.ui.base.BaseDialogFragment;
+import com.custom.cameralibrary.ui.fragment.base.BaseDialogFragment;
 import java.util.Arrays;
 import java.util.List;
 
@@ -75,23 +76,23 @@ public class CameraSettingsDialogFragment extends BaseDialogFragment {
             params = new Bundle();
         }
         int id = 0;
-        if (params.containsKey(CameraFragment.QUALITY)) {
-            id = params.getInt(CameraFragment.QUALITY, 0);
+        if (params.containsKey(CameraConstant.KEY_QUALITY)) {
+            id = params.getInt(CameraConstant.KEY_QUALITY, 0);
         }
         quality = Quality.getQualityById(id);
         id = 0;
-        if (params.containsKey(CameraFragment.RATIO)) {
-            id = params.getInt(CameraFragment.RATIO, 0);
+        if (params.containsKey(CameraConstant.KEY_RATIO)) {
+            id = params.getInt(CameraConstant.KEY_RATIO, 0);
         }
         ratio = Ratio.getRatioById(id);
         id = 0;
-        if (params.containsKey(CameraFragment.FOCUS_MODE)) {
-            id = params.getInt(CameraFragment.FOCUS_MODE);
+        if (params.containsKey(CameraConstant.KEY_FOCUS_MODE)) {
+            id = params.getInt(CameraConstant.KEY_FOCUS_MODE);
         }
         focusMode = FocusMode.getFocusModeById(id);
         id = 0;
-        if (params.containsKey(CameraFragment.HDR_MODE)) {
-            id = params.getInt(CameraFragment.HDR_MODE);
+        if (params.containsKey(CameraConstant.KEY_HDR_MODE)) {
+            id = params.getInt(CameraConstant.KEY_HDR_MODE);
         }
         hdrMode = HDRMode.getHDRModeById(id);
     }

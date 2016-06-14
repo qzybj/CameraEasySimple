@@ -31,7 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.custom.cameralibrary.R;
 import com.custom.cameralibrary.module.camera.interfaces.PhotoCroppedCallback;
-import com.custom.cameralibrary.ui.base.BaseFragment;
+import com.custom.cameralibrary.ui.fragment.base.BaseFragment;
 import com.edmodo.cropper.CropImageView;
 
 public class PhotoCropFragment extends BaseFragment {

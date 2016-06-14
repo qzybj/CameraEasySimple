@@ -31,4 +31,7 @@
     <color name="camera_background">#777</color>
     <color name="camera_params_background">#99000000</color>
 
+    <color name="color_e60161">#e60161</color>
+
+
 </resources>

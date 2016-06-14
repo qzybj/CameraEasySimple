@@ -30,7 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.custom.cameralibrary.R;
 import com.custom.cameralibrary.module.camera.view.PinchImageView;
-import com.custom.cameralibrary.ui.base.BaseFragment;
+import com.custom.cameralibrary.ui.fragment.base.BaseFragment;
 
 public class PhotoPreviewFragment extends BaseFragment {
 

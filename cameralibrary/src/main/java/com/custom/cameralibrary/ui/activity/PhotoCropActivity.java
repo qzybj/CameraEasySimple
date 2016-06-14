@@ -32,7 +32,7 @@ import com.custom.cameralibrary.R;
 import com.custom.cameralibrary.module.camera.interfaces.PhotoCroppedCallback;
 import com.custom.cameralibrary.module.camera.interfaces.PhotoSavedListener;
 import com.custom.cameralibrary.module.common.manager.ImageManager;
-import com.custom.cameralibrary.ui.base.BasePhotoActivity;
+import com.custom.cameralibrary.ui.activity.base.BasePhotoActivity;
 import com.custom.cameralibrary.ui.fragment.PhotoCropFragment;
 
 

@@ -21,7 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.custom.cameralibrary;
+package com.custom.cameralibrary.module.common.manager;
 
 import android.content.Context;
 import com.custom.cameralibrary.module.camera.interfaces.Initializer;

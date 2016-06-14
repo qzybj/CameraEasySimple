@@ -29,4 +29,24 @@ public final class CameraConstant {
 
     public static final int COMPRESS_QUALITY = 90;
 
+    public static final String KEY_QUALITY = "quality";
+    public static final String KEY_RATIO = "ratio";
+    public static final String KEY_FOCUS_MODE = "focus_mode";
+    public static final String KEY_FLASH_MODE = "flash_mode";
+    public static final String KEY_HDR_MODE = "hdr_mode";
+    public static final String KEY_WHITEBALANCE_MODE = "whitebalance_mode";
+    public static final String KEY_FRONT_CAMERA = "front_camera";
+
+    public static final String KEY_PATH = "path";
+    public static final String KEY_USE_FRONT_CAMERA = "use_front_camera";
+    public static final String KEY_OPEN_PHOTO_PREVIEW = "open_photo_preview";
+    public static final String KEY_LAYOUT_ID = "layout_id";
+
+    public static final String IMG_PREFIX = "IMG_";
+    public static final String IMG_POSTFIX = ".jpg";
+    public static final String TIME_FORMAT = "yyyyMMdd_HHmmss";
+    /**图片存储路径*/
+    public static final String IMAGEPATH = "customcamera";
+
+
 }

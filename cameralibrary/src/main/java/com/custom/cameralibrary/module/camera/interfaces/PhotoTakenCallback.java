@@ -23,8 +23,7 @@
 
 package com.custom.cameralibrary.module.camera.interfaces;
 
+/**照片获取*/
 public interface PhotoTakenCallback {
-
-    public void photoTaken(byte[] data, int orientation);
-
+     void photoTaken(byte[] data, int orientation);
 }

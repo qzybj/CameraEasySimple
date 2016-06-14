@@ -23,6 +23,7 @@
 
 package com.custom.cameralibrary.module.camera.interfaces;
 
+/**Camera 参数改变监听*/
 public interface CameraParamsChangedListener {
 
     /**

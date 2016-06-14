@@ -24,7 +24,7 @@
 package com.custom.cameralibrary.module.camera.interfaces;
 
 import android.hardware.Camera;
-
+/**对焦回调*/
 public interface FocusCallback {
 
      void onFocused(Camera camera);

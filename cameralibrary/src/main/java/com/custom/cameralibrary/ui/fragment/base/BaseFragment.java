@@ -21,7 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.custom.cameralibrary.ui.base;
+package com.custom.cameralibrary.ui.fragment.base;
 
 import android.app.Activity;
 import android.app.Fragment;

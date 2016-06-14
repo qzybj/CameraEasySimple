@@ -2,7 +2,7 @@ package camerademo.earll.com.camerademo;
 
 import android.app.Application;
 
-import com.custom.cameralibrary.ManagerInitializer;
+import com.custom.cameralibrary.module.common.manager.ManagerInitializer;
 
 
 /**

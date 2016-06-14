@@ -58,7 +58,7 @@
             android:src="@drawable/cam_flash_auto_icn" />
 
         <ImageButton
-            android:id="@+id/capture"
+            android:id="@+id/ibtn_capture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -70,10 +70,10 @@
         <ProgressBar
             android:id="@+id/progress"
             style="@style/style_common"
-            android:layout_alignBottom="@id/capture"
-            android:layout_alignLeft="@id/capture"
-            android:layout_alignRight="@id/capture"
-            android:layout_alignTop="@id/capture"
+            android:layout_alignBottom="@id/ibtn_capture"
+            android:layout_alignLeft="@id/ibtn_capture"
+            android:layout_alignRight="@id/ibtn_capture"
+            android:layout_alignTop="@id/ibtn_capture"
             android:visibility="gone" />
 
 

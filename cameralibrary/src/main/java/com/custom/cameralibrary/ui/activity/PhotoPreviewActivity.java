@@ -30,7 +30,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.custom.cameralibrary.R;
-import com.custom.cameralibrary.ui.base.BasePhotoActivity;
+import com.custom.cameralibrary.ui.activity.base.BasePhotoActivity;
 import com.custom.cameralibrary.ui.fragment.PhotoPreviewFragment;
 
 public class PhotoPreviewActivity extends BasePhotoActivity {
